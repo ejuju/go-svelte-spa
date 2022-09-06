@@ -1,37 +1,15 @@
 <script lang="ts">
-  import Counter from "./lib/Counter.svelte";
+  import Router from 'svelte-spa-router'
+  import { wrap } from 'svelte-spa-router/wrap'
+
+  const routes = {
+    '/':  wrap({asyncComponent: () => import('./pages/Home.svelte')}),
+    '/song/:author_slug/:song_slug?': wrap({asyncComponent: () => import('./pages/Song.svelte')}),
+    '/author/:author_slug': wrap({asyncComponent: () => import('./pages/Author.svelte')}),
+    '*':  wrap({asyncComponent: () => import('./pages/NotFound.svelte')}),
+  }
 </script>
 
 <main>
-  <h1>Hello world!</h1>
-  <Counter />
+  <Router {routes} />
 </main>
-
-<style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
-  main {
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-  }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      max-width: none;
-    }
-  }
-</style>
