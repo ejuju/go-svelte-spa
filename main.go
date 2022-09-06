@@ -20,7 +20,7 @@ func main() {
 		// todo: set defaults
 	}
 
-	fmt.Printf("Starting HTTP server on port %d \n", port)
+	fmt.Printf("starting HTTP server on port %d \n", port)
 	err = httpServer.ListenAndServe()
 	if err != nil {
 		panic(err)

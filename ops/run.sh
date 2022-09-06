@@ -13,4 +13,4 @@ podman run \
     -p "$PORT":"$PORT" \
     --expose="$PORT" \
     --env PORT="$PORT" \
-    localhost/go-svelte-spa:"$TAG"
+    "$REPO:$TAG"
