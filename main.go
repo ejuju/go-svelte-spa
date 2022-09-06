@@ -5,7 +5,27 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
+
+	"github.com/ejuju/go-svelte-spa/pkg/httputils"
+	"github.com/gorilla/mux"
 )
+
+type HTTPRouter struct {
+	WebsiteHTTPHandler http.Handler
+	BackendHTTPHandler http.Handler
+}
+
+// This function routes requests to the appropriate handler
+// depending if they are for the backend API or the file server (= website files).
+func (httpRouter *HTTPRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("New request on endpoint: ", r.URL.Path) // debug
+	if !strings.HasPrefix(r.URL.Path, "/api/") {
+		httpRouter.WebsiteHTTPHandler.ServeHTTP(w, r)
+		return
+	}
+	httpRouter.BackendHTTPHandler.ServeHTTP(w, r)
+}
 
 func main() {
 	port, err := strconv.Atoi(os.Getenv("PORT"))
@@ -13,7 +33,18 @@ func main() {
 		panic(fmt.Errorf("invalid port number: %w", err))
 	}
 
-	httpHandler := http.FileServer(http.Dir("website/dist"))
+	httpWebsiteHandler := http.FileServer(http.Dir("website/dist"))
+
+	// init backend api
+	httpBackendHandler := mux.NewRouter()
+	httpBackendHandler.HandleFunc("/api/v1/", httputils.NotImplementedHandlerFunc)
+
+	// init higher level http router
+	httpHandler := &HTTPRouter{
+		WebsiteHTTPHandler: httpWebsiteHandler,
+		BackendHTTPHandler: httpBackendHandler,
+	}
+
 	httpServer := &http.Server{
 		Addr:    ":" + strconv.Itoa(port),
 		Handler: httpHandler,
