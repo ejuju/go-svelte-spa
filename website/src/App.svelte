@@ -4,7 +4,6 @@
 
   const routes = {
     '/':  wrap({asyncComponent: () => import('./pages/Home.svelte')}),
-    '/song/:author_slug/:song_slug?': wrap({asyncComponent: () => import('./pages/Song.svelte')}),
     '/author/:author_slug': wrap({asyncComponent: () => import('./pages/Author.svelte')}),
     '*':  wrap({asyncComponent: () => import('./pages/NotFound.svelte')}),
   }
