@@ -24,6 +24,7 @@ func (httpRouter *HTTPRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		httpRouter.WebsiteHTTPHandler.ServeHTTP(w, r)
 		return
 	}
+
 	httpRouter.BackendHTTPHandler.ServeHTTP(w, r)
 }
 
