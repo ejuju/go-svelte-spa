@@ -1,5 +1,7 @@
 #!/bin/bash
 
+start=$(date +%s)
+
 [[ -z "$REPO" ]]; REPO="localhost/go-svelte-spa"
 printf 'Using repo: %s \n' "$REPO"
 
@@ -11,3 +13,6 @@ podman build . \
     -t "$REPO:$TAG" \
     --progress plain
 
+end=$(date +%s)
+runtime=$((end-start))
+printf 'Took %s seconds to build container image \n\n' "$runtime"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+printf 'Running app image: %s \n' "$REPO"
+
 [[ -z "$REPO" ]]; REPO="localhost/go-svelte-spa"
 printf 'With REPO: %s \n' "$REPO"
 
