@@ -7,7 +7,7 @@ printf 'Using repo: %s \n' "$REPO"
 printf 'Using tag: %s \n' "$TAG"
 
 podman build . \
-    -f ./ops/app.containerfile \
+    -f ./containerfile \
     -t "$REPO:$TAG" \
     --progress plain
 
